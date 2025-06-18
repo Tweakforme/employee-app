@@ -1,0 +1,45 @@
+2025-02-06T20:25:41.302Z - Furnace/AC Service Report: Error: Failed to launch the browser process!
+/root/.cache/puppeteer/chrome/linux-133.0.6943.53/chrome-linux64/chrome: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory
+
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+2025-02-06T20:28:41.827Z - Furnace/AC Service Report: Error: Failed to launch the browser process!
+/root/.cache/puppeteer/chrome/linux-133.0.6943.53/chrome-linux64/chrome: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory
+
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+    at Interface.onClose (/var/www/employee.hodder.ca/html/node_modules/@puppeteer/browsers/lib/cjs/launch.js:318:24)
+    at Interface.emit (node:events:530:35)
+    at Interface.close (node:internal/readline/interface:527:10)
+    at Socket.onend (node:internal/readline/interface:253:10)
+    at Socket.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+2025-02-06T20:44:51.599Z - Furnace/AC Service Report: ProtocolError: Target.setAutoAttach timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+    at <instance_members_initializer> (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:101:14)
+    at new Callback (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:105:16)
+    at CallbackRegistry.create (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:23:26)
+    at Connection._rawSend (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Connection.js:93:26)
+    at Connection.send (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Connection.js:84:21)
+    at TargetManager.initialize (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/TargetManager.js:101:32)
+    at async CdpBrowser._attach (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Browser.js:68:9)
+    at async CdpBrowser._create (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Browser.js:26:9)
+    at async ChromeLauncher.launch (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:155:31)
+    at async generateAndSendPDF (/var/www/employee.hodder.ca/html/app.js:447:25)
+2025-02-06T21:41:12.404Z - Furnace/AC Service Report: ProtocolError: Network.enable timed out. Increase the 'protocolTimeout' setting in launch/connect calls for a higher timeout if needed.
+    at <instance_members_initializer> (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:101:14)
+    at new Callback (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:105:16)
+    at CallbackRegistry.create (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/common/CallbackRegistry.js:23:26)
+    at Connection._rawSend (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Connection.js:93:26)
+    at CdpCDPSession.send (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/CDPSession.js:69:33)
+    at NetworkManager.addClient (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/NetworkManager.js:62:20)
+    at FrameManager.initialize (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/FrameManager.js:170:38)
+    at #initialize (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Page.js:290:36)
+    at CdpPage._create (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Page.js:103:31)
+    at /var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/cdp/Target.js:206:42
+2025-02-06T22:07:07.513Z - Furnace/AC Service Report: TimeoutError: Timed out after 30000 ms while waiting for the WS endpoint URL to appear in stdout!
+    at ChromeLauncher.launch (/var/www/employee.hodder.ca/html/node_modules/puppeteer-core/lib/cjs/puppeteer/node/BrowserLauncher.js:162:23)
+    at async generateAndSendPDF (/var/www/employee.hodder.ca/html/app.js:447:25)
+    at async /var/www/employee.hodder.ca/html/app.js:225:5

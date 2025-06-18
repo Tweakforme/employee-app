@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #34495e;
+    margin-bottom: 15px; 
+   text-align: center;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 20px 0;
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 40px;
+}
+
+/* Forms Section */
+.forms-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.forms-section h2 {
+    color: #27ae60;
+}
+
+.forms-section button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.forms-section button:hover {
+    background-color: #219653;
+}
+
+/* Timesheet Section */
+.timesheet-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timesheet-section h2 {
+    color: #3498db;
+}
+
+.timesheet-section button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.timesheet-section button:hover {
+    background-color: #2980b9;
+}
+
+/* Profile Section */
+.profile-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h2 {
+    color: #007bff;
+}
+
+.profile-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-section button:hover {
+    background-color: #0056b3;
+}
+
+.profile-section a {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Update Info Section */
+.update-info-section {
+    display: none;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 40px;
+}
+
+.update-info-section h2 {
+    color: #e67e22;
+}
+
+.update-info-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.update-info-section label {
+    font-weight: bold;
+    color: #34495e;
+}
+
+.update-info-section input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.update-info-section button {
+    padding: 10px;
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-info-section button:hover {
+    background-color: #d35400;
+}
+
+/* Logout Button */
+.logout-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logout-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-link:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .forms-section,
+    .timesheet-section,
+    .update-info-section,
+    .profile-section {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
+
+/* Remove button underline if wrapped in anchor */
+a button {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+</style>
+
+</head>
+<body>
+  <div class="container">
+
+    <h1>Welcome, <span style="color: rgb(255, 0, 0);"><%= fullName %></span>!</h1>
+<p style="color: #a800ff; font-weight: bold;">
+  PLEASE FILL IN YOUR INFORMATION BY CLICKING ON "EDIT MY PROFILE" BUTTON BELOW
+</p>
+    <p>Your personal dashboard to manage forms and work hours.</p>
+    <hr>
+
+    <!-- Grid Layout for Forms, Timesheet, and Profile -->
+    <div class="grid-container">
+      
+      <% if (role === 'admin') { %>
+  <!-- Admin View -->
+  <div class="admin-section" style="margin: 2rem auto; text-align: center;">
+    <h2>Admin Panel</h2>
+    <p>Access all employee work logs here:</p>
+    <a href="/admin/all-work-hours">
+      <button style="
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      " onmouseover="this.style.backgroundColor='#0056b3'"
+         onmouseout="this.style.backgroundColor='#007bff'">
+        View All Employee Hours
+      </button>
+    </a>
+  </div>
+<% } else { %>
+  <!-- Employee View -->
+  <!-- Timesheet Section -->
+  <div class="timesheet-section">
+    <h2>Timesheet</h2>
+    <p>Manage your work hours and review past logs.</p>
+    <a href="/work-hours">
+      <button>Log & View Work Hours</button>
+    </a>
+  </div>
+
+  <!-- Forms Section -->
+  <div class="forms-section">
+    <h2>Forms</h2>
+    <p>Access the necessary forms below:</p>
+    <a href="/form1"><button>Furnace Inspection</button></a>
+    <a href="/form2"><button>AC Inspection</button></a>
+    <a href="/form3"><button>Plumbing Inspection</button></a>
+    <a href="/form4"><button>General Inspection</button></a>
+  </div>
+<% } %>
+
+<!-- Profile Edit Section (End) -->
+<div class="profile-section">
+  <h2>Edit Profile</h2>
+  <p>Update your personal details below:</p>
+  <div style="display: flex; justify-content: center; margin-top: 10px;">
+    <a href="/edit-profile" style="text-decoration: none;">
+      <button style="
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        font-size: 14px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      "
+      onmouseover="this.style.backgroundColor='#0056b3'"
+      onmouseout="this.style.backgroundColor='#007bff'">
+        Edit My Profile
+      </button>
+    </a>
+  </div>
+</div>
+
+    <!-- Update Info Section (Bottom) -->
+    <div class="update-info-section">
+      <h2>Update Your Info</h2>
+      <form method="POST" action="/update-info">
+        <label for="newUsername">New Username:</label>
+        <input type="text" id="newUsername" name="newUsername" required>
+
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+
+        <button type="submit">Update Info</button>
+      </form>
+    </div>
+
+    <!-- Logout Button -->
+<div class="logout-button">
+  <a href="/logout" class="logout-link">Logout</a>
+</div>
+
+  </div>
+</body>
+</html>

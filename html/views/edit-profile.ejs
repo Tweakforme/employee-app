@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #003eff;
+  font-size: 1.75rem;
+}
+
+form label {
+  display: block;
+  margin-top: 1.2rem;
+  font-weight: 600;
+  color: #db0000;
+  font-size: 1rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #0077ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fd4;
+}
+
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.3rem;
+}
+
+/* ? Responsive Tweaks */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  .container {
+    margin: 30px 15px;
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    margin: 20px 10px;
+    padding: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  input, select {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Your Profile</h2>
+    <form action="/edit-profile" method="POST">
+      <label>Full Name
+        <input type="text" name="full_name" value="<%= employee.full_name || '' %>" required />
+      </label>
+
+      <label>Date of Birth
+        <input type="date" name="dob" value="<%= employee.dob || '' %>" />
+      </label>
+
+      <label>Email
+        <input type="email" name="email" value="<%= employee.email || '' %>" />
+      </label>
+
+      <label>Pronouns (Optional)
+        <input type="text" name="pronouns" value="<%= employee.pronouns || '' %>" placeholder="e.g., he/him, she/her" />
+      </label>
+
+      <label>Department
+        <input type="text" name="department" value="<%= employee.department || '' %>" />
+      </label>
+
+      <label>Title
+        <input type="text" name="title" value="<%= employee.title || '' %>" />
+      </label>
+
+      <label>T-Shirt Size
+        <select name="tshirt_size">
+          <option value="">Select</option>
+          <option value="S" <%= employee.tshirt_size === 'S' ? 'selected' : '' %>>Small</option>
+          <option value="M" <%= employee.tshirt_size === 'M' ? 'selected' : '' %>>Medium</option>
+          <option value="L" <%= employee.tshirt_size === 'L' ? 'selected' : '' %>>Large</option>
+          <option value="XL" <%= employee.tshirt_size === 'XL' ? 'selected' : '' %>>XL</option>
+        </select>
+      </label>
+
+      <div class="section-title">Emergency Contact</div>
+
+      <label>Contact Name
+        <input type="text" name="emergency_contact_name" value="<%= employee.emergency_contact_name || '' %>" />
+      </label>
+
+      <label>Contact Phone
+        <input type="text" name="emergency_contact_phone" value="<%= employee.emergency_contact_phone || '' %>" />
+      </label>
+
+      <button type="submit">Save Changes</button>
+
+      <a href="/dashboard" style="
+    display: block;
+    width: 95%;
+    padding: 0.9rem;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    background-color: #db0000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+"
+onmouseover="this.style.backgroundColor='#850101'"
+onmouseout="this.style.backgroundColor='#db0000'">
+    Back to Dashboard
+</a>
+
+    </form>
+  </div>
+</body>
+</html>

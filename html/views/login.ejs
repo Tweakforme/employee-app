@@ -1,0 +1,32 @@
+<!-- views/login.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Login</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <h2>Login at Hodder Construction Ltd.</h2>
+
+        <!-- Display error message if present -->
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p class="error-message" style="color: red; font-weight: bold;"><%= error %></p>
+        <% } %>
+
+        <form method="post" action="/login">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required><br>
+
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>
+
+ 

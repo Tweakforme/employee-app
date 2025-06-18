@@ -1,0 +1,51 @@
+Logging In
+
+Open the application.
+
+Enter the username and password provided to you.
+
+Click Login to access your dashboard.
+
+Logging and Viewing Work Hours
+
+Click on Log and View Work Hours.
+
+Select the Date by clicking on the date picker.
+
+Enter the Project Name you are working on.
+
+Provide the Address of your work location:
+
+If working from the office, enter 419 Mt Paul Way.
+
+Enter the Number of Hours Worked.
+
+If you worked at different locations on the same day, make separate entries for each location.
+
+Sign in the blank space before logging hours (entries will not be saved without a signature).
+
+Click Log Hours to submit the entry.
+
+The logged hours will be displayed below in the Information Space.
+
+If you need to edit an entry, contact the admin at admin.hodder@gmail.com.
+
+Note: After logging each entry, go back and refresh the page before making another entry.
+
+Navigating Back
+
+Click Back to Dashboard to return to the main menu.
+
+Filling Out Forms
+
+On the right side of the dashboard, you will find four available forms.
+
+Click on any form to open it.
+
+Fill in all required information.
+
+Click Submit at the bottom of the form to complete the process.
+
+Support
+
+For any issues or technical difficulties, contact the admin at admin.hodder@gmail.com.

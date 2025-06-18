@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC Service Report</title>
+ <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 30px;
+            max-width: 1400px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            font-weight: 500;
+            margin-top: 30px;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        input[type="text"], input[type="date"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus, input[type="file"]:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .checkbox-group:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkbox-group h4 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+
+        .checkbox-group label {
+            display: block;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #3498db;
+        }
+
+        /* File Upload */
+        .file-upload {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-upload label {
+            display: block;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        /* Submit Button */
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+            }
+        }
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .page-break {
+        page-break-before: always;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>AC Service Report</h2>
+
+        <form id="serviceForm" action="/submit-ac-service-form" method="POST" enctype="multipart/form-data">
+            <!-- Customer and Technician Information -->
+            <div class="grid-container">
+                <div>
+                    <label for="serviceDate">Service Date:</label>
+                    <input type="date" id="serviceDate" name="serviceDate" value="<%= formData.serviceDate %>" required>
+                </div>
+                <div>
+                    <label for="technician">Service Technician:</label>
+                    <input type="text" id="technician" name="technician" value="<%= formData.technician %>" required>
+                </div>
+                <div>
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" id="customerName" name="customerName" value="<%= formData.customerName %>" required>
+                </div>
+                <div>
+                    <label for="customerAddress">Customer Address:</label>
+                    <input type="text" id="customerAddress" name="customerAddress" value="<%= formData.customerAddress %>" required>
+                </div>
+                <div>
+                    <label for="contactNumber">Contact Number:</label>
+                    <input type="text" id="contactNumber" name="contactNumber" value="<%= formData.contactNumber %>" required>
+                </div>
+            </div>
+
+            <!-- AC Information -->
+            <h3>AC Information</h3>
+            <div class="grid-container">
+                <div>
+                    <label for="acMake">Make:</label>
+                    <input type="text" id="acMake" name="acMake" value="<%= formData.acMake %>">
+                </div>
+                <div>
+                    <label for="acModel">Model:</label>
+                    <input type="text" id="acModel" name="acModel" value="<%= formData.acModel %>">
+                </div>
+                <div>
+                    <label for="acSerialNumber">Serial Number:</label>
+                    <input type="text" id="acSerialNumber" name="acSerialNumber" value="<%= formData.acSerialNumber %>">
+                </div>
+                <div>
+                    <label for="acYearInstalled">Year Installed:</label>
+                    <input type="text" id="acYearInstalled" name="acYearInstalled" value="<%= formData.acYearInstalled %>">
+                </div>
+                <div>
+                    <label for="acOrHeatPump">AC or Heat Pump:</label>
+                    <input type="text" id="acOrHeatPump" name="acOrHeatPump" value="<%= formData.acOrHeatPump %>">
+                </div>
+            </div>
+
+            <!-- AC Service Checklist -->
+<div class="page-break">
+            <h3>AC Service Checklist</h3>
+            <div class="grid-container">
+                <!-- Pre-Service Inspection -->
+                <div class="checkbox-group">
+                    <h4>Pre-Service Inspection</h4>
+                    <label><input type="checkbox" name="checkThermostat" <%= formData.checkThermostat ? 'checked' : '' %>> Check thermostat operation</label>
+                    <label><input type="checkbox" name="inspectFilters" <%= formData.inspectFilters ? 'checked' : '' %>> Inspect filters (replace if necessary)</label>
+                    <label><input type="checkbox" name="checkRefrigerantLevels" <%= formData.checkRefrigerantLevels ? 'checked' : '' %>> Check refrigerant levels</label>
+                    <label><input type="checkbox" name="inspectDuctwork" <%= formData.inspectDuctwork ? 'checked' : '' %>> Inspect ductwork for leaks</label>
+                </div>
+
+                <!-- Cleaning and Maintenance -->
+                <div class="checkbox-group">
+                    <h4>Cleaning and Maintenance</h4>
+                    <label><input type="checkbox" name="cleanAirFilters" <%= formData.cleanAirFilters ? 'checked' : '' %>> Clean or replace air filters</label>
+                    <label><input type="checkbox" name="cleanCondenserCoils" <%= formData.cleanCondenserCoils ? 'checked' : '' %>> Clean condenser coils</label>
+                    <label><input type="checkbox" name="cleanEvaporatorCoils" <%= formData.cleanEvaporatorCoils ? 'checked' : '' %>> Clean evaporator coils</label>
+                    <label><input type="checkbox" name="checkDrainLine" <%= formData.checkDrainLine ? 'checked' : '' %>> Check and clean drain line</label>
+                </div>
+
+                <!-- Safety Checks -->
+                <div class="checkbox-group">
+                    <h4>Safety Checks</h4>
+                    <label><input type="checkbox" name="testSafetyControls" <%= formData.testSafetyControls ? 'checked' : '' %>> Test safety controls</label>
+                    <label><input type="checkbox" name="inspectElectricalConnections" <%= formData.inspectElectricalConnections ? 'checked' : '' %>> Inspect electrical connections</label>
+                    <label><input type="checkbox" name="checkCompressorOperation" <%= formData.checkCompressorOperation ? 'checked' : '' %>> Check compressor operation</label>
+                </div>
+
+                <!-- Final Checks -->
+                <div class="checkbox-group">
+                    <h4>Final Checks</h4>
+                    <label><input type="checkbox" name="testOverallSystem" <%= formData.testOverallSystem ? 'checked' : '' %>> Test overall system operation</label>
+                    <label><input type="checkbox" name="verifyThermostatCalibration" <%= formData.verifyThermostatCalibration ? 'checked' : '' %>> Verify thermostat calibration</label>
+                    <label><input type="checkbox" name="provideMaintenanceTips" <%= formData.provideMaintenanceTips ? 'checked' : '' %>> Provide customer with maintenance tips</label>
+                </div>
+</div>
+            </div>
+
+<div class="no-print">
+            <!-- Upload Pictures -->
+            <div class="file-upload">
+                <h3>Upload Service Pictures</h3>
+                <label>Upload Picture 1:</label>
+                <input type="file" name="picture1" accept="image/*">
+                <label>Upload Picture 2:</label>
+                <input type="file" name="picture2" accept="image/*">
+                <label>Upload Picture 3:</label>
+                <input type="file" name="picture3" accept="image/*">
+            </div>
+</div>
+            <!-- Additional Notes -->
+            <div class="section">
+                <h3>Additional Notes</h3>
+                <textarea name="additionalNotes" placeholder="Enter any additional notes here..."><%= formData.additionalNotes %></textarea>
+            </div>
+
+<div class="no-print">
+            <!-- Submit Button -->
+            <input type="submit" value="Submit Report">
+        </form>
+    </div>
+</body>
+</html>

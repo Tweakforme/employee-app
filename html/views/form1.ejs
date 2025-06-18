@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furnace Service Report</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            font-weight: 500;
+            margin-top: 30px;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .checkbox-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .checkbox-group h4 {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+            padding: 10px 0;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            justify-content: flex-start;
+        }
+
+        .checkbox-group label:last-child {
+            border-bottom: none;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked {
+            accent-color: #28a745;
+            transform: scale(1.1);
+        }
+
+        /* File Upload */
+        .file-upload {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-upload label {
+            display: block;
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .file-upload input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* Submit Button */
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            font-size: 1.1em;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        /* Additional Notes Section */
+        .section textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .section textarea:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.5em;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            input, select, textarea {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+
+            .checkbox-group {
+                padding: 15px;
+            }
+
+            .checkbox-group h4 {
+                font-size: 1.2em;
+            }
+
+            .checkbox-group label {
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            input, select, textarea {
+                padding: 8px;
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+
+            .checkbox-group {
+                padding: 10px;
+            }
+
+            .checkbox-group h4 {
+                font-size: 1.1em;
+            }
+
+            .checkbox-group label {
+                font-size: 0.9em;
+            }
+
+            .section textarea {
+                min-height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Furnace Report</h2>
+        <form id="serviceForm" action="/submit-service-form" method="POST" enctype="multipart/form-data">
+            <!-- Customer and Technician Information -->
+            <div class="grid-container">
+                <div>
+                    <label for="serviceDate">Service Date:</label>
+                    <input type="date" id="serviceDate" name="serviceDate" value="<%= formData.serviceDate %>" required>
+                </div>
+                <div>
+                    <label for="technician">Service Technician:</label>
+                    <input type="text" id="technician" name="technician" value="<%= formData.technician %>" required>
+                </div>
+                <div>
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" id="customerName" name="customerName" value="<%= formData.customerName %>" required>
+                </div>
+                <div>
+                    <label for="customerAddress">Customer Address:</label>
+                    <input type="text" id="customerAddress" name="customerAddress" value="<%= formData.customerAddress %>" required>
+                </div>
+                <div>
+                    <label for="contactNumber">Contact Number:</label>
+                    <input type="text" id="contactNumber" name="contactNumber" value="<%= formData.contactNumber %>" required>
+                </div>
+            </div>
+
+            <!-- Furnace Information -->
+            <h3>Furnace Information</h3>
+            <div class="grid-container">
+                <div>
+                    <label for="furnaceMake">Make:</label>
+                    <input type="text" id="furnaceMake" name="furnaceMake" value="<%= formData.furnaceMake %>">
+                </div>
+                <div>
+                    <label for="furnaceModel">Model:</label>
+                    <input type="text" id="furnaceModel" name="furnaceModel" value="<%= formData.furnaceModel %>">
+                </div>
+                <div>
+                    <label for="furnaceSerialNumber">Serial Number:</label>
+                    <input type="text" id="furnaceSerialNumber" name="furnaceSerialNumber" value="<%= formData.furnaceSerialNumber %>">
+                </div>
+                <div>
+                    <label for="furnaceYearInstalled">Year Installed:</label>
+                    <input type="text" id="furnaceYearInstalled" name="furnaceYearInstalled" value="<%= formData.furnaceYearInstalled %>">
+                </div>
+                <div>
+                    <label for="typeOfFuel">Type of Fuel:</label>
+                    <input type="text" id="typeOfFuel" name="typeOfFuel" value="<%= formData.typeOfFuel %>">
+                </div>
+                <div>
+                    <label for="upflowDownflow">Upflow/Downflow:</label>
+                    <input type="text" id="upflowDownflow" name="upflowDownflow" value="<%= formData.upflowDownflow %>">
+                </div>
+                <div>
+                    <label for="dimensions">Dimensions:</label>
+                    <input type="text" id="dimensions" name="dimensions" value="<%= formData.dimensions %>">
+                </div>
+            </div>
+
+            <!-- Furnace Service Checklist -->
+            <div class="page-break">
+                <h3>Furnace Service Checklist</h3>
+                <div class="grid-container">
+                    <!-- Pre-Service Inspection -->
+                    <div class="checkbox-group">
+                        <h4>Pre-Service Inspection</h4>
+                        <label><input type="checkbox" name="checkThermostat" <%= formData.checkThermostat ? 'checked' : '' %>> Check thermostat operation</label>
+                        <label><input type="checkbox" name="inspectFilters" <%= formData.inspectFilters ? 'checked' : '' %>> Inspect filters (replace if necessary)</label>
+                        <label><input type="checkbox" name="checkGasLeaks" <%= formData.checkGasLeaks ? 'checked' : '' %>> Check for gas leaks (if applicable)</label>
+                        <label><input type="checkbox" name="inspectVents" <%= formData.inspectVents ? 'checked' : '' %>> Inspect exhaust and intake vents</label>
+                        <label><input type="checkbox" name="inspectAirflow" <%= formData.inspectAirflow ? 'checked' : '' %>> Inspect for proper airflow</label>
+                    </div>
+
+                    <!-- Cleaning and Maintenance -->
+                    <div class="checkbox-group">
+                        <h4>Cleaning and Maintenance</h4>
+                        <label><input type="checkbox" name="cleanAirFilters" <%= formData.cleanAirFilters ? 'checked' : '' %>> Clean or replace air filters</label>
+                        <label><input type="checkbox" name="cleanBlowerAssembly" <%= formData.cleanBlowerAssembly ? 'checked' : '' %>> Clean blower assembly</label>
+                        <label><input type="checkbox" name="cleanBurners" <%= formData.cleanBurners ? 'checked' : '' %>> Clean burners and combustion chamber</label>
+                        <label><input type="checkbox" name="inspectFluePipe" <%= formData.inspectFluePipe ? 'checked' : '' %>> Inspect and clean flue pipe</label>
+                        <label><input type="checkbox" name="lubricateParts" <%= formData.lubricateParts ? 'checked' : '' %>> Lubricate moving parts</label>
+                    </div>
+
+                    <!-- Safety Checks -->
+                    <div class="checkbox-group">
+                        <h4>Safety Checks</h4>
+                        <label><input type="checkbox" name="testSafetyControls" <%= formData.testSafetyControls ? 'checked' : '' %>> Test safety controls</label>
+                        <label><input type="checkbox" name="inspectCO" <%= formData.inspectCO ? 'checked' : '' %>> Inspect carbon monoxide detector(s)</label>
+                        <label><input type="checkbox" name="checkCombustion" <%= formData.checkCombustion ? 'checked' : '' %>> Check for proper combustion</label>
+                    </div>
+
+                    <!-- Final Checks -->
+                    <div class="checkbox-group">
+                        <h4>Final Checks</h4>
+                        <label><input type="checkbox" name="testIgnition" <%= formData.testIgnition ? 'checked' : '' %>> Test ignition system</label>
+                        <label><input type="checkbox" name="verifyThermostat" <%= formData.verifyThermostat ? 'checked' : '' %>> Verify thermostat calibration</label>
+                        <label><input type="checkbox" name="checkOverallSystem" <%= formData.checkOverallSystem ? 'checked' : '' %>> Check overall system operation</label>
+                        <label><input type="checkbox" name="provideMaintenanceTips" <%= formData.provideMaintenanceTips ? 'checked' : '' %>> Provide customer with maintenance tips</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="no-print">
+                <div class="file-upload">
+                    <h3>Upload Service Pictures</h3>
+                    <label>Upload Picture 1:</label>
+                    <input type="file" name="picture1" accept="image/*">
+                    <label>Upload Picture 2:</label>
+                    <input type="file" name="picture2" accept="image/*">
+                    <label>Upload Picture 3:</label>
+                    <input type="file" name="picture3" accept="image/*">
+                </div>
+            </div>
+
+            <!-- Additional Notes -->
+            <div class="section">
+                <h3>Additional Notes</h3>
+                <textarea name="additionalNotes" placeholder="Enter any additional notes here..."><%= formData.additionalNotes %></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="no-print">
+                <input type="submit" value="Submit Report">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
