@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Work Hours</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <div class="max-w-4xl mx-auto p-6 mt-8 bg-white rounded-xl shadow-lg">
+    <h1 class="text-2xl font-bold text-center text-blue-700 mb-6">Edit Work Hours</h1>
+
+    <form action="/update-hours/<%= workHour.id %>" method="POST" class="space-y-6">
+
+      <!-- Date -->
+      <div>
+        <label for="date" class="block font-medium text-gray-700">Date</label>
+        <input type="date" id="date" name="date" value="<%= workHour.date.toISOString().split('T')[0] %>" required
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+      </div>
+
+      <!-- Work Description -->
+      <div>
+        <label for="description" class="block font-medium text-gray-700">Work Description</label>
+        <textarea id="description" name="description" rows="3" required
+                  class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"><%= workHour.description %></textarea>
+      </div>
+
+      <!-- Project Table -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2 text-gray-800">Projects</h2>
+        <table class="w-full table-auto border rounded-md overflow-hidden">
+          <thead class="bg-blue-100 text-sm">
+            <tr>
+              <th class="px-3 py-2">Project Name</th>
+              <th class="px-3 py-2">Hours</th>
+              <th class="px-3 py-2">Location</th>
+              <th class="px-3 py-2">Description</th>
+              <th class="px-3 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="projectTable" class="text-sm">
+
+         <% projects.forEach((project, index) => { %>
+              <tr class="border-t">
+                <td class="p-2">
+                  <input type="text" name="projects[<%= index %>][name]" value="<%= project.name %>" required
+                         class="w-full px-2 py-1 border border-gray-300 rounded"/>
+                </td>
+                <td class="p-2">
+                  <input type="number" name="projects[<%= index %>][hours]" value="<%= project.hours %>" step="0.1" min="0" required
+                         class="w-full px-2 py-1 border border-gray-300 rounded"/>
+                </td>
+                <td class="p-2">
+                  <input type="text" name="projects[<%= index %>][location]" value="<%= project.location || '' %>" required
+                         class="w-full px-2 py-1 border border-gray-300 rounded"/>
+                </td>
+                <td class="p-2">
+                  <input type="text" name="projects[<%= index %>][description]" value="<%= project.description || '' %>" required
+                         class="w-full px-2 py-1 border border-gray-300 rounded"/>
+                </td>
+                <td class="p-2 text-center">
+                  <button type="button" onclick="removeProject(this)"
+                          class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200">Remove</button>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <button type="button" onclick="addProject()"
+                class="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add Project</button>
+      </div>
+
+      <!-- Submit & Cancel Buttons -->
+      <div class="flex justify-end space-x-3 mt-6">
+        <button type="submit"
+                class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-all">Save Changes</button>
+<% if (user.role === 'admin') { %>
+  <a href="/admin/all-work-hours">
+<% } else { %>
+  <a href="/work-hours">
+<% } %>
+  <button type="button"
+          class="bg-gray-400 text-white px-6 py-2 rounded-lg hover:bg-gray-500 transition-all">Cancel</button>
+</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function addProject() {
+      const table = document.getElementById("projectTable");
+      const index = table.children.length;
+
+      const row = document.createElement("tr");
+      row.className = "border-t";
+
+      row.innerHTML = `
+        <td class="p-2">
+          <input type="text" name="projects[${index}][name]" required class="w-full px-2 py-1 border border-gray-300 rounded"/>
+        </td>
+        <td class="p-2">
+          <input type="number" name="projects[${index}][hours]" step="0.1" min="0" required class="w-full px-2 py-1 border border-gray-300 rounded"/>
+        </td>
+        <td class="p-2">
+          <input type="text" name="projects[${index}][location]" required class="w-full px-2 py-1 border border-gray-300 rounded"/>
+        </td>
+        <td class="p-2">
+          <input type="text" name="projects[${index}][description]" required class="w-full px-2 py-1 border border-gray-300 rounded"/>
+        </td>
+        <td class="p-2 text-center">
+          <button type="button" onclick="removeProject(this)" class="bg-red-100 text-red-600 px-2 py-1 rounded hover:bg-red-200">Remove</button>
+        </td>
+      `;
+
+      table.appendChild(row);
+    }
+
+    function removeProject(button) {
+      button.closest("tr").remove();
+    }
+  </script>
+</body>
+</html>

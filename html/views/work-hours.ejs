@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Hours</title>
+<style>
+    /* Global Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #ECF0F1;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Container */
+    .container {
+        width: 100%;
+        max-width: 700px; /* Optimized for mobile-first */
+        margin: auto;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    /* Headings */
+    h2 {
+        text-align: center;
+        color: #2980B9;
+        margin-bottom: 20px;
+        font-size: 1.8em;
+    }
+
+    h3 {
+        color: #27AE60;
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+
+    label {
+        font-weight: 500;
+        color: #2C3E50;
+        margin-top: 10px;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Input Fields & Textarea */
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #BDC3C7;
+        border-radius: 6px;
+        font-size: 15px;
+        transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #3498DB;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    }
+
+    /* Buttons */
+    button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 10px;
+    }
+
+    button[type="submit"] {
+        background-color: #2ECC71;
+        color: white;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #27AE60;
+    }
+
+    button[type="button"] {
+        background-color: #E0E0E0;
+        color: #333;
+    }
+
+    button[type="button"]:hover {
+        background-color: #BDC3C7;
+    }
+
+    /* Signature Canvas */
+    canvas {
+        border: 2px dashed #2C3E50;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 100%;
+        height: 150px;
+        background: white;
+        margin-bottom: 10px;
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        overflow-x: auto;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #2980B9;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #F2F2F2;
+    }
+
+    /* Make Table Scrollable on Mobile */
+    @media (max-width: 600px) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+
+    /* Mobile-Friendly Adjustments */
+    @media (max-width: 480px) {
+        .container {
+            padding: 15px;
+        }
+
+        h2 {
+            font-size: 1.6em;
+        }
+
+        label, button {
+            font-size: 14px;
+        }
+
+        input, textarea {
+            font-size: 14px;
+        }
+
+        table {
+            font-size: 13px;
+        }
+
+        canvas {
+            height: 120px;
+        }
+    }
+
+
+.pagination a {
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    margin: 0 5px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.page-btn {
+    padding: 8px 14px;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #2980b9;
+}
+
+.page-btn.active {
+    background-color: #2ecc71;
+}
+
+
+
+
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Log Hours</h2>
+
+    <!-- Countdown Timer -->
+    <h3>Time Remaining to Log Hours for Today: <span id="countdown"></span></h3> 
+
+    <!-- Log Work Hours Form -->
+    <form action="/log-hours" method="POST" id="log-hours-form">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <!-- Dynamic Project Fields -->
+        <div id="projects-container">
+            <div class="project-entry">
+                <label>Project Name:</label>
+                <input type="text" name="project_name[]" placeholder="Project Name" required>
+
+                <label>Address:</label>
+                <input type="text" name="location[]" placeholder="Project Address" required>
+
+                <label>Hours Worked:</label>
+                <input type="number" name="hours_worked[]" placeholder="Hours worked" step="0.1" required>
+
+                <label>Work Description:</label>
+                <textarea name="description[]" placeholder="Describe your work" rows="3" required></textarea>
+            </div>
+        </div>
+
+        <button type="button" id="add-project-btn">Add Another Project</button>
+
+        <!-- Signature Pad -->
+        <h3>Signature:</h3>
+        <canvas id="signature-pad"></canvas>
+        <br>
+        <button type="button" onclick="clearSignature()">Clear Signature</button>
+
+        <!-- Hidden input to store signature data -->
+        <input type="hidden" id="signatureData" name="signatureData">
+
+        <button type="submit" id="log-hours-btn" disabled>Log Hours</button>
+    </form>
+
+    <hr>
+
+    <!-- Admin-Only Button to View All Work Hours -->
+    <% if (user.role === "admin") { %>
+        <a href="/admin/all-work-hours">
+            <button style="background-color: blue; color: white; padding: 10px; margin-bottom: 10px;">
+                View All Employees' Work Hours
+            </button>
+        </a>
+    <% } %>
+
+    <!-- Logged Work Hours Table -->
+    <h2>Your Logged Work Hours</h2>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Projects</th>
+            <th>Total Hours</th>
+            <th>Description</th>
+            <th>Signature</th>
+             <th>Actions</th>
+        </tr>
+        <% workHours.forEach(entry => { %>
+    <tr>
+        <td><%= new Date(entry.date).toLocaleDateString() %></td>
+
+        <!-- Projects Column -->
+        <td>
+     <%
+  let projects = [];
+  try {
+    if (Array.isArray(entry.projects)) {
+      projects = entry.projects;
+    } else if (typeof entry.projects === "string") {
+      const parsed = JSON.parse(entry.projects);
+      projects = Array.isArray(parsed) ? parsed : [parsed];
+    } else if (typeof entry.projects === "object" && entry.projects !== null) {
+      projects = [entry.projects];
+    }
+  } catch (err) {
+    console.warn("Failed to parse project:", err);
+    projects = [];
+  }
+%>
+            <% if (projects.length > 0) { %>
+                <% projects.forEach((project, index) => { %>
+                    <% if (typeof project === 'object' && project !== null) { %>
+                        <strong><%= project.name || "Unnamed" %></strong>
+                        - <%= project.location || "Unknown Location" %>
+                        (<%= project.hours ?? "N/A" %> hrs)<br>
+                    <% } else { %>
+                        <span style="color:red;">Invalid project format</span><br>
+                    <% } %>
+                <% }) %>
+            <% } else { %>
+                <span style="color: red;">No projects logged</span>
+            <% } %>
+        </td>
+
+        <!-- Total Hours -->
+        <td><%= entry.hours_worked ?? 0 %> hrs</td>
+
+        <!-- Description -->
+        <td>
+            <% if (projects.length > 0) { %>
+                <% projects.forEach(project => { %>
+                    <strong><%= project.name || "Unnamed" %>:</strong>
+                    <%= project.description || "No description provided" %><br>
+                <% }) %>
+            <% } else { %>
+                <span>No description</span>
+            <% } %>
+        </td>
+
+        <!-- Signature -->
+        <td>
+            <% if (entry.signature) { 
+                const sigPath = entry.signature.startsWith("signatures/")
+                    ? `/${entry.signature}`
+                    : `/signatures/${entry.signature}`;
+            %>
+                <img src="<%= sigPath %>" alt="Signature" width="100" onerror="this.style.display='none';">
+            <% } else { %>
+                <span>No Signature</span>
+            <% } %>
+        </td>
+<td>
+  <% 
+    const now = DateTime.now().setZone("America/Vancouver");
+    const entryDate = DateTime.fromISO(entry.isoDate, { zone: "America/Vancouver" }).startOf("day");
+    const deadline = entryDate.plus({ hours: 48 });
+    const stillEditable = now < deadline;
+  %>
+
+  <% if (user.role === 'admin' || stillEditable) { %>
+   <a href="/admin/edit-hours/<%= entry.id %>" style="text-decoration: none;">
+  <button style="background-color: orange; color: white; padding: 6px 10px; border-radius: 4px;">
+    Edit
+  </button>
+</a>
+  <% } else { %>
+    <span style="color: gray;">Locked</span>
+  <% } %>
+</td>
+
+    </tr>
+<% }) %>
+    </table>
+
+    <br>
+    <a href="/dashboard"><button>Back to Dashboard</button></a>
+
+<!-- Pagination Controls -->
+<div class="pagination" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 25px;">
+    <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+    <% } %>
+
+    <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="?page=<%= i %>" class="page-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+    <% } %>
+</div>
+
+
+
+</div>
+
+
+<!-- Inject server-side values into JS -->
+<script>
+    const userRole = "<%= user.role %>";
+    const minDate = "<%= minDate %>";
+    const maxDate = "<%= maxDate %>";
+</script>
+
+<script>
+// Signature Pad
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+let isDrawing = false;
+
+canvas.width = Math.min(window.innerWidth * 0.9, 400);
+canvas.height = 150;
+
+// Adjust for high DPI
+const scale = window.devicePixelRatio || 1;
+canvas.width *= scale;
+canvas.height *= scale;
+ctx.scale(scale, scale);
+
+function getCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    return {
+        offsetX: (clientX - rect.left) * (canvas.width / rect.width) / scale,
+        offsetY: (clientY - rect.top) * (canvas.height / rect.height) / scale
+    };
+}
+
+function startDrawing(e) {
+    isDrawing = true;
+    ctx.beginPath();
+    const { offsetX, offsetY } = getCoords(e);
+    ctx.moveTo(offsetX, offsetY);
+    e.preventDefault();
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    const { offsetX, offsetY } = getCoords(e);
+    ctx.lineTo(offsetX, offsetY);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.stroke();
+    e.preventDefault();
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    ctx.closePath();
+    enableLogHoursButton();
+}
+
+// Event Listeners
+canvas.addEventListener("mousedown", startDrawing);
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mouseup", stopDrawing);
+canvas.addEventListener("mouseout", stopDrawing);
+canvas.addEventListener("touchstart", startDrawing);
+canvas.addEventListener("touchmove", draw);
+canvas.addEventListener("touchend", stopDrawing);
+canvas.addEventListener("touchcancel", stopDrawing);
+
+function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    document.getElementById("signatureData").value = "";
+    document.getElementById("log-hours-btn").setAttribute("disabled", "true");
+}
+</script>
+
+<script>
+function enableLogHoursButton() {
+    const canvas = document.getElementById("signature-pad");
+    const dataURL = canvas.toDataURL("image/png");
+    document.getElementById("signatureData").value = dataURL;
+    if (dataURL.includes("base64")) {
+        document.getElementById("log-hours-btn").removeAttribute("disabled");
+    }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const DateTime = luxon.DateTime;
+    const dateInput = document.getElementById("date");
+    const countdownElement = document.getElementById("countdown");
+    const logHoursBtn = document.getElementById("log-hours-btn");
+
+    dateInput.value = maxDate;
+
+    if (userRole !== "admin") {
+        dateInput.setAttribute("min", minDate);
+        dateInput.setAttribute("max", maxDate);
+    }
+
+    let countdownInterval;
+
+    function updateCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+
+        const selectedDateStr = dateInput.value;
+        const userZone = "America/Vancouver";
+        const now = DateTime.now().setZone(userZone);
+        const selectedStart = DateTime.fromISO(selectedDateStr, { zone: userZone }).startOf("day");
+        const deadline = selectedStart.plus({ hours: 48 });
+
+        if (userRole === "admin") {
+            countdownElement.textContent = "Admins can log hours for any date.";
+            logHoursBtn.removeAttribute("disabled");
+            return;
+        }
+
+        const min = DateTime.fromISO(minDate, { zone: userZone });
+        const max = DateTime.fromISO(maxDate, { zone: userZone });
+        const selected = DateTime.fromISO(selectedDateStr, { zone: userZone });
+
+        if (!(selected.hasSame(min, 'day') || selected.hasSame(max, 'day'))) {
+            countdownElement.textContent = "You can only log hours for today or yesterday.";
+            logHoursBtn.setAttribute("disabled", "true");
+            return;
+        }
+
+        countdownInterval = setInterval(() => {
+            const now = DateTime.now().setZone(userZone);
+            const diff = deadline.diff(now, ["hours", "minutes", "seconds"]);
+
+            if (diff.toMillis() <= 0) {
+                countdownElement.textContent = "Time is up for logging hours!";
+                logHoursBtn.setAttribute("disabled", "true");
+                clearInterval(countdownInterval);
+            } else {
+                const h = Math.floor(diff.hours);
+                const m = Math.floor(diff.minutes);
+                const s = Math.floor(diff.seconds);
+                countdownElement.textContent = `Time Remaining: ${h}h ${m}m ${s}s`;
+                logHoursBtn.removeAttribute("disabled");
+            }
+        }, 1000);
+    }
+
+    dateInput.addEventListener("change", () => {
+        const selected = dateInput.value;
+        const validDates = [minDate, maxDate];
+        if (userRole !== "admin" && !validDates.includes(selected)) {
+            alert("You can only select today or yesterday.");
+            dateInput.value = maxDate;
+        }
+        updateCountdown();
+    });
+
+    updateCountdown();
+});
+</script>
+
+<script>
+// Dynamic project addition/removal
+document.getElementById("add-project-btn").addEventListener("click", () => {
+    const container = document.getElementById("projects-container");
+    const newEntry = document.createElement("div");
+    newEntry.className = "project-entry";
+    newEntry.innerHTML = `
+        <label>Project Name:</label>
+        <input type="text" name="project_name[]" placeholder="Project Name" required>
+
+        <label>Address:</label>
+        <input type="text" name="location[]" placeholder="Project Address" required>
+
+        <label>Hours Worked:</label>
+        <input type="number" name="hours_worked[]" placeholder="Hours worked" step="0.1" required>
+
+        <label>Work Description:</label>
+        <textarea name="description[]" placeholder="Describe your work" rows="3" required></textarea>
+
+        <button type="button" class="remove-project" style="margin-top: 10px;">Remove</button>
+    `;
+
+    container.appendChild(newEntry);
+    newEntry.querySelector(".remove-project").addEventListener("click", () => {
+        newEntry.remove();
+    });
+});
+</script>
+
+
+<script>
+// Pass existing work hours data to JavaScript (add this to your existing server-side script section)
+const existingWorkHours = <%- JSON.stringify(workHours.map(entry => ({
+    date: entry.date,
+    hours_worked: entry.hours_worked || 0
+}))) %>;
+</script>
+
+<script>
+// 14-Hour Daily Limit Validation
+function updateExistingHours() {
+    const selectedDate = document.getElementById('date').value;
+    
+    // Find existing hours for the selected date
+    const existingEntry = existingWorkHours.find(entry => {
+        const entryDate = new Date(entry.date).toISOString().split('T')[0];
+        return entryDate === selectedDate;
+    });
+    
+    const existingHours = existingEntry ? existingEntry.hours_worked : 0;
+    
+    // Store existing hours for validation
+    if (!document.getElementById('existing-hours')) {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.id = 'existing-hours';
+        document.getElementById('log-hours-form').appendChild(hiddenInput);
+    }
+    document.getElementById('existing-hours').value = existingHours;
+    
+    validateTotalHours();
+}
+
+function validateTotalHours() {
+    const hoursInputs = document.querySelectorAll('input[name="hours_worked[]"]');
+    const form = document.querySelector('form[action="/log-hours"]');
+    const logHoursBtn = document.getElementById('log-hours-btn');
+    const signatureData = document.getElementById('signatureData').value;
+    
+    let totalNewHours = 0;
+    
+    // Calculate total hours from all project inputs
+    hoursInputs.forEach(input => {
+        const value = parseFloat(input.value) || 0;
+        totalNewHours += value;
+    });
+    
+    // Get existing hours for the selected date
+    const existingHoursEl = document.getElementById('existing-hours');
+    const existingHours = existingHoursEl ? parseFloat(existingHoursEl.value) || 0 : 0;
+    const totalHours = existingHours + totalNewHours;
+    
+    // Remove existing warning
+    const existingWarning = document.getElementById('hours-warning');
+    if (existingWarning) {
+        existingWarning.remove();
+    }
+    
+    let isValid = true;
+    let warningMessage = '';
+    
+    if (totalHours > 14) {
+        const remainingHours = Math.max(0, 14 - existingHours);
+        isValid = false;
+        if (remainingHours <= 0) {
+            warningMessage = `Cannot log more hours for this date. You have already logged the maximum of 14 hours.`;
+        } else {
+            warningMessage = `Cannot exceed 14 hours per day. You can only log ${remainingHours.toFixed(1)} more hours (Currently logged: ${existingHours}h).`;
+        }
+    } else if (totalNewHours > 0 && totalHours > 0) {
+        const remainingHours = 14 - totalHours;
+        warningMessage = `? Total: ${totalHours.toFixed(1)}h (${remainingHours.toFixed(1)}h remaining for this day)`;
+    }
+    
+    // Show warning/info message
+    if (warningMessage) {
+        const warning = document.createElement('div');
+        warning.id = 'hours-warning';
+        warning.style.cssText = `
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            background-color: ${isValid ? '#fff3cd' : '#f8d7da'};
+            color: ${isValid ? '#856404' : '#721c24'};
+            border: 1px solid ${isValid ? '#ffeaa7' : '#f5c6cb'};
+        `;
+        warning.innerHTML = warningMessage;
+        form.insertBefore(warning, form.firstChild);
+    }
+    
+    // Enable/disable submit button based on validation
+    const hasSignature = signatureData && signatureData.includes('base64');
+    const canSubmit = isValid && hasSignature && totalNewHours > 0;
+    
+    if (canSubmit) {
+        logHoursBtn.removeAttribute('disabled');
+        logHoursBtn.textContent = 'Log Hours';
+        logHoursBtn.style.backgroundColor = '#2ECC71';
+    } else {
+        logHoursBtn.setAttribute('disabled', 'true');
+        if (!isValid) {
+            logHoursBtn.textContent = 'Hours Limit Exceeded';
+            logHoursBtn.style.backgroundColor = '#e74c3c';
+        } else if (!hasSignature) {
+            logHoursBtn.textContent = 'Signature Required';
+            logHoursBtn.style.backgroundColor = '#95a5a6';
+        } else if (totalNewHours <= 0) {
+            logHoursBtn.textContent = 'Enter Hours to Log';
+            logHoursBtn.style.backgroundColor = '#95a5a6';
+        }
+    }
+}
+
+// Initialize validation
+document.addEventListener('DOMContentLoaded', function() {
+    // Add validation to existing hours inputs
+    const hoursInputs = document.querySelectorAll('input[name="hours_worked[]"]');
+    hoursInputs.forEach(input => {
+        input.addEventListener('input', validateTotalHours);
+        input.addEventListener('change', validateTotalHours);
+    });
+    
+    // Date change listener
+    const dateInput = document.getElementById('date');
+    if (dateInput) {
+        dateInput.addEventListener('change', updateExistingHours);
+    }
+    
+    // Form submission validation
+    const form = document.querySelector('form[action="/log-hours"]');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const hoursInputs = document.querySelectorAll('input[name="hours_worked[]"]');
+            let totalNewHours = 0;
+            
+            hoursInputs.forEach(input => {
+                totalNewHours += parseFloat(input.value) || 0;
+            });
+            
+            const existingHoursEl = document.getElementById('existing-hours');
+            const existingHours = existingHoursEl ? parseFloat(existingHoursEl.value) || 0 : 0;
+            const totalHours = existingHours + totalNewHours;
+            
+            if (totalHours > 14) {
+                e.preventDefault();
+                alert('Cannot exceed 14 hours per day. Please adjust your hours.');
+                return false;
+            }
+            
+            if (totalNewHours <= 0) {
+                e.preventDefault();
+                alert('Please enter hours to log.');
+                return false;
+            }
+        });
+    }
+    
+    // Update existing hours for initial date
+    updateExistingHours();
+});
+
+// Update the existing "Add Another Project" functionality
+document.getElementById("add-project-btn").addEventListener("click", () => {
+    const container = document.getElementById("projects-container");
+    const newEntry = document.createElement("div");
+    newEntry.className = "project-entry";
+    newEntry.innerHTML = `
+        <label>Project Name:</label>
+        <input type="text" name="project_name[]" placeholder="Project Name" required>
+
+        <label>Address:</label>
+        <input type="text" name="location[]" placeholder="Project Address" required>
+
+        <label>Hours Worked:</label>
+        <input type="number" name="hours_worked[]" placeholder="Hours worked" step="0.1" min="0" max="14" required>
+
+        <label>Work Description:</label>
+        <textarea name="description[]" placeholder="Describe your work" rows="3" required></textarea>
+
+        <button type="button" class="remove-project" style="margin-top: 10px;">Remove</button>
+    `;
+
+    container.appendChild(newEntry);
+    
+    // Add event listeners to new hours input
+    const newHoursInput = newEntry.querySelector('input[name="hours_worked[]"]');
+    newHoursInput.addEventListener('input', validateTotalHours);
+    newHoursInput.addEventListener('change', validateTotalHours);
+    
+    newEntry.querySelector(".remove-project").addEventListener("click", () => {
+        newEntry.remove();
+        validateTotalHours(); // Revalidate after removing a project
+    });
+});
+
+// Update the existing enableLogHoursButton function
+function enableLogHoursButton() {
+    const canvas = document.getElementById("signature-pad");
+    const dataURL = canvas.toDataURL("image/png");
+    document.getElementById("signatureData").value = dataURL;
+    if (dataURL.includes("base64")) {
+        validateTotalHours(); // Check hours validation before enabling
+    }
+}
+</script>
+
+
+</body>
+</html>
+

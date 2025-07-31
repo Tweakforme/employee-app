@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Job Site Workplace Inspection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section h3 {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 5px solid #007BFF;
+        }
+        .form-section label {
+            display: block;
+            margin: 10px 0;
+        }
+        .form-section input[type="text"],
+        .form-section input[type="date"],
+        .form-section textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-section input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .form-section textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .signature-section {
+            margin-top: 20px;
+        }
+        .signature-section label {
+            display: inline-block;
+            width: 48%;
+        }
+        .signature-section input[type="text"] {
+            width: 100%;
+        }
+
+    button[type="submit"] {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Construction Job Site Workplace Inspection Form</h2>
+
+    <form action="/submit-form4" method="POST">
+        <!-- General Information -->
+        <div class="form-section">
+            <label>Date of Inspection: 
+                <input type="date" name="inspection_date" value="<%= formData.inspection_date || '' %>" required>
+            </label>
+            <label>Project Name: 
+                <input type="text" name="project_name" value="<%= formData.project_name || '' %>" required>
+            </label>
+            <label>Job Site Location: 
+                <input type="text" name="job_site_location" value="<%= formData.job_site_location || '' %>" required>
+            </label>
+            <label>Inspector's Name: 
+                <input type="text" name="inspector_name" value="<%= formData.inspector_name || '' %>" required>
+            </label>
+            <label>Weather Conditions: 
+                <input type="text" name="weather_conditions" value="<%= formData.weather_conditions || '' %>" required>
+            </label>
+        </div>
+
+        <!-- Sections with Checkboxes -->
+        <% let sections = [
+            { title: "General Site Conditions", fields: [
+                "Are walkways and work areas clear of debris?",
+                "Are signs and barriers in place to mark hazardous areas?",
+                "Is the site free from trip and fall hazards?",
+                "Are proper first aid kits available and stocked?"
+            ]},
+            { title: "Personal Protective Equipment (PPE)", fields: [
+                "Are workers wearing required PPE (hard hats, gloves, boots, etc.)?",
+                "Are safety glasses or face shields being used where necessary?",
+                "Are high-visibility vests worn in high-traffic areas?"
+            ]},
+            { title: "Tools & Equipment", fields: [
+                "Are power tools in good working condition?",
+                "Are hand tools properly stored when not in use?",
+                "Are ladders and scaffolding set up correctly and inspected?"
+            ]},
+            { title: "Fall Protection", fields: [
+                "Are guardrails, harnesses, and lanyards being used at heights?",
+                "Are fall protection systems in place and properly secured?",
+                "Are workers trained on fall prevention measures?"
+            ]},
+            { title: "Electrical Safety", fields: [
+                "Are extension cords in good condition (no frays, damage)?",
+                "Are outlets and electrical panels properly covered?",
+                "Are lockout/tagout procedures being followed?"
+            ]},
+            { title: "Heavy Equipment & Vehicles", fields: [
+                "Are operators properly trained and licensed?",
+                "Are equipment and vehicles inspected before use?",
+                "Are spotters being used in blind spots and congested areas?"
+            ]},
+            { title: "Fire & Hazardous Materials", fields: [
+                "Are fire extinguishers available and easily accessible?",
+                "Are flammable materials properly stored?",
+                "Are MSDS sheets available for hazardous substances?"
+            ]},
+            { title: "Emergency Preparedness", fields: [
+                "Are emergency exits and muster points clearly marked?",
+                "Are emergency contact numbers posted?",
+                "Are workers aware of the emergency procedures?"
+            ]}
+        ]; %>
+
+        <% sections.forEach((section, sectionIndex) => { %>
+            <div class="form-section">
+                <h3><%= sectionIndex + 1 %>. <%= section.title %></h3>
+                <% section.fields.forEach((field, fieldIndex) => { 
+                    let fieldName = section.title.replace(/ /g, '_') + '_' + fieldIndex;
+                %>
+                    <label>
+                        <input type="hidden" name="<%= fieldName %>" value="No">
+                        <input type="checkbox" name="<%= fieldName %>" value="Yes"
+                            <%= formData[fieldName] && formData[fieldName].includes("Yes") ? 'checked' : '' %>>
+                        <%= field %>
+                    </label>
+                <% }); %>
+            </div>
+        <% }); %>
+
+        <!-- Additional Comments -->
+        <div class="form-section">
+            <h3>9. Additional Comments/Concerns:</h3>
+            <textarea name="additional_comments" rows="4" cols="50"><%= formData.additional_comments || '' %></textarea>
+        </div>
+
+        <!-- Signatures -->
+        <div class="form-section signature-section">
+            <label>Inspector's Signature: 
+                <input type="text" name="inspector_signature" value="<%= formData.inspector_signature || '' %>" required>
+            </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Inspection</button>
+    </form>
+</body>
+</html>
