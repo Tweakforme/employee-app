@@ -1,0 +1,15 @@
+# secrets
+.env
+
+# deps
+node_modules/
+
+# logs
+*.log
+error_log.txt
+
+# sql dumps / backups
+*.sql
+
+# misc
+.DS_Store

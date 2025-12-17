@@ -20,7 +20,7 @@ const app = express();
 const PORT = 3001;
 
 // ======================== MySQL Database Connection ========================
-const sequelize = new Sequelize('workhours_db', 'hodder', 'romeo10', {
+const sequelize = new Sequelize(process.env.DB_NAME || 'workhours_db', process.env.DB_USER, process.env.DB_PASSWORD, {
     host: 'localhost',
     dialect: 'mysql',
     logging: false,
